@@ -4,10 +4,10 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 
 public class SafeEventNotify {
@@ -39,7 +39,7 @@ public class SafeEventNotify {
         }
         Set<WeakReference<GlobalEventListener<? extends Event>>> set = instance.mObserver.get(clsName);
         if (set == null) {
-            set = new HashSet<>();
+            set = new CopyOnWriteArraySet<>();
         }
         WeakReference<GlobalEventListener<? extends Event>> reference = new WeakReference<GlobalEventListener<? extends Event>>(listener);
         set.add(reference);

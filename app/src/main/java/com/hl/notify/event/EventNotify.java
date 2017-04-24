@@ -3,9 +3,9 @@ package com.hl.notify.event;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 
 public class EventNotify {
@@ -25,7 +25,7 @@ public class EventNotify {
     private EventNotify() {
     }
 
-    Map<String, Set<GlobalEventListener>> mObserver = new HashMap<>();
+    Map<String, CopyOnWriteArraySet<GlobalEventListener>> mObserver = new HashMap<>();
 
     public static void listen(GlobalEventListener<? extends Event> listener) {
         getInstance();
@@ -35,9 +35,9 @@ public class EventNotify {
         if (type.getActualTypeArguments()[0] instanceof Class) {
             clsName = ((Class) type.getActualTypeArguments()[0]).getName();
         }
-        Set<GlobalEventListener> set = instance.mObserver.get(clsName);
+        CopyOnWriteArraySet<GlobalEventListener> set = instance.mObserver.get(clsName);
         if (set == null) {
-            set = new HashSet<>();
+            set = new CopyOnWriteArraySet<>();
         }
         set.add(listener);
         instance.mObserver.put(clsName, set);
@@ -51,7 +51,7 @@ public class EventNotify {
         if (type.getActualTypeArguments()[0] instanceof Class) {
             clsName = ((Class) type.getActualTypeArguments()[0]).getName();
         }
-        Set<GlobalEventListener> set = instance.mObserver.get(clsName);
+        CopyOnWriteArraySet<GlobalEventListener> set = instance.mObserver.get(clsName);
         if (set != null) {
             set.remove(listener);
         }
